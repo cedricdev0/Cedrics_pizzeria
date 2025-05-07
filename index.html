@@ -1,0 +1,983 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cedric's Automatic Pizzeria</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .pizza-bg {
+            background-image: url('https://images.unsplash.com/photo-1513104890138-7c749659a591?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80');
+            background-size: cover;
+            background-position: center;
+        }
+        .pizza-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+        .pizza-card {
+            transition: all 0.3s ease;
+        }
+        .nav-link {
+            position: relative;
+        }
+        .nav-link:after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            background-color: #f97316;
+            transition: width 0.3s ease;
+        }
+        .nav-link:hover:after {
+            width: 100%;
+        }
+        .page {
+            display: none;
+        }
+        .page.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        .topping-item {
+            transition: all 0.2s ease;
+        }
+        .topping-item:hover {
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body class="bg-gray-100 font-sans">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-lg">
+        <div class="max-w-6xl mx-auto px-4">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center">
+                    <i class="fas fa-pizza-slice text-orange-500 text-2xl mr-2"></i>
+                    <span class="text-xl font-bold text-gray-800">Cedric's Automatic Pizzeria</span>
+                </div>
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#" class="nav-link text-gray-800 hover:text-orange-500 px-3 py-2" onclick="showPage('home')">Home</a>
+                    <a href="#" class="nav-link text-gray-800 hover:text-orange-500 px-3 py-2" onclick="showPage('menu')">Menu</a>
+                    <a href="#" class="nav-link text-gray-800 hover:text-orange-500 px-3 py-2" onclick="showPage('order')">Order</a>
+                    <a href="#" class="nav-link text-gray-800 hover:text-orange-500 px-3 py-2" onclick="showPage('about')">About</a>
+                    <div class="relative">
+                        <button id="userMenuButton" class="flex items-center text-gray-800 hover:text-orange-500">
+                            <i class="fas fa-user-circle text-xl mr-1"></i>
+                            <span>Account</span>
+                        </button>
+                        <div id="userMenu" class="hidden absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-10">
+                            <a href="#" class="block px-4 py-2 text-gray-800 hover:bg-orange-100" onclick="showPage('login')">Login</a>
+                            <a href="#" class="block px-4 py-2 text-gray-800 hover:bg-orange-100" onclick="showPage('signup')">Sign Up</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="md:hidden">
+                    <button id="mobileMenuButton" class="text-gray-800 hover:text-orange-500">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- Mobile menu -->
+        <div id="mobileMenu" class="hidden md:hidden bg-white px-4 py-2">
+            <a href="#" class="block px-3 py-2 text-gray-800 hover:bg-orange-100 rounded" onclick="showPage('home')">Home</a>
+            <a href="#" class="block px-3 py-2 text-gray-800 hover:bg-orange-100 rounded" onclick="showPage('menu')">Menu</a>
+            <a href="#" class="block px-3 py-2 text-gray-800 hover:bg-orange-100 rounded" onclick="showPage('order')">Order</a>
+            <a href="#" class="block px-3 py-2 text-gray-800 hover:bg-orange-100 rounded" onclick="showPage('about')">About</a>
+            <a href="#" class="block px-3 py-2 text-gray-800 hover:bg-orange-100 rounded" onclick="showPage('login')">Login</a>
+            <a href="#" class="block px-3 py-2 text-gray-800 hover:bg-orange-100 rounded" onclick="showPage('signup')">Sign Up</a>
+        </div>
+    </nav>
+
+    <!-- Home Page -->
+    <div id="home" class="page active">
+        <div class="pizza-bg h-screen flex items-center justify-center bg-gray-900 bg-opacity-50">
+            <div class="text-center px-4">
+                <h1 class="text-4xl md:text-6xl font-bold text-white mb-6">Welcome to Cedric's Automatic Pizzeria</h1>
+                <p class="text-xl text-white mb-8">The future of pizza ordering is here. Fresh ingredients, perfect crust, delivered fast.</p>
+                <button onclick="showPage('order')" class="bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 px-8 rounded-full text-lg transition duration-300 transform hover:scale-105">
+                    Order Now <i class="fas fa-arrow-right ml-2"></i>
+                </button>
+            </div>
+        </div>
+
+        <div class="max-w-6xl mx-auto py-16 px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl font-bold text-gray-800 mb-4">Why Choose Us?</h2>
+                <p class="text-gray-600 max-w-2xl mx-auto">We combine traditional recipes with cutting-edge automation for the perfect pizza experience.</p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="bg-white p-8 rounded-lg shadow-md text-center">
+                    <div class="text-orange-500 text-4xl mb-4">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">Fast Service</h3>
+                    <p class="text-gray-600">Our automated system ensures your pizza is ready in record time without sacrificing quality.</p>
+                </div>
+                <div class="bg-white p-8 rounded-lg shadow-md text-center">
+                    <div class="text-orange-500 text-4xl mb-4">
+                        <i class="fas fa-leaf"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">Fresh Ingredients</h3>
+                    <p class="text-gray-600">We source only the freshest, highest quality ingredients for every pizza we make.</p>
+                </div>
+                <div class="bg-white p-8 rounded-lg shadow-md text-center">
+                    <div class="text-orange-500 text-4xl mb-4">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">Precision Automation</h3>
+                    <p class="text-gray-600">State-of-the-art technology guarantees consistent perfection in every pizza.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Menu Page -->
+    <div id="menu" class="page">
+        <div class="max-w-6xl mx-auto py-16 px-4">
+            <h1 class="text-3xl font-bold text-center mb-12 text-gray-800">Our Signature Pizzas</h1>
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Pizza 1 -->
+                <div class="pizza-card bg-white rounded-lg overflow-hidden shadow-md">
+                    <img src="https://images.unsplash.com/photo-1588315028884-8aa6a1b3c0a3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2071&q=80" alt="Margherita" class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold mb-2">Classic Margherita</h3>
+                        <p class="text-gray-600 mb-4">San Marzano tomato sauce, fresh mozzarella, basil, and a drizzle of olive oil.</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-orange-500 font-bold text-lg">$12.99</span>
+                            <button onclick="addToCart('Classic Margherita', 12.99)" class="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-full text-sm">Add to Order</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Pizza 2 -->
+                <div class="pizza-card bg-white rounded-lg overflow-hidden shadow-md">
+                    <img src="https://images.unsplash.com/photo-1601924582970-9238bcb495d9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1976&q=80" alt="Pepperoni" class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold mb-2">Automated Pepperoni</h3>
+                        <p class="text-gray-600 mb-4">Tomato sauce, mozzarella, and perfectly placed pepperoni slices by our robot chefs.</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-orange-500 font-bold text-lg">$14.99</span>
+                            <button onclick="addToCart('Automated Pepperoni', 14.99)" class="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-full text-sm">Add to Order</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Pizza 3 -->
+                <div class="pizza-card bg-white rounded-lg overflow-hidden shadow-md">
+                    <img src="https://images.unsplash.com/photo-1627626775846-122b778965ce?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1974&q=80" alt="Veggie" class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold mb-2">Garden Automata</h3>
+                        <p class="text-gray-600 mb-4">Tomato sauce, mozzarella, bell peppers, mushrooms, onions, and black olives.</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-orange-500 font-bold text-lg">$13.99</span>
+                            <button onclick="addToCart('Garden Automata', 13.99)" class="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-full text-sm">Add to Order</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Pizza 4 -->
+                <div class="pizza-card bg-white rounded-lg overflow-hidden shadow-md">
+                    <img src="https://images.unsplash.com/photo-1613564834361-9436948817d1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1943&q=80" alt="BBQ Chicken" class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold mb-2">Robo BBQ Chicken</h3>
+                        <p class="text-gray-600 mb-4">BBQ sauce, mozzarella, grilled chicken, red onions, and cilantro.</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-orange-500 font-bold text-lg">$15.99</span>
+                            <button onclick="addToCart('Robo BBQ Chicken', 15.99)" class="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-full text-sm">Add to Order</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Pizza 5 -->
+                <div class="pizza-card bg-white rounded-lg overflow-hidden shadow-md">
+                    <img src="https://images.unsplash.com/photo-1620374645498-af6bd476a9eb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" alt="Hawaiian" class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold mb-2">Digital Hawaiian</h3>
+                        <p class="text-gray-600 mb-4">Tomato sauce, mozzarella, ham, and pineapple with a perfect crust ratio.</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-orange-500 font-bold text-lg">$14.99</span>
+                            <button onclick="addToCart('Digital Hawaiian', 14.99)" class="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-full text-sm">Add to Order</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Pizza 6 -->
+                <div class="pizza-card bg-white rounded-lg overflow-hidden shadow-md">
+                    <img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1981&q=80" alt="Meat Lovers" class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold mb-2">Mechanized Meat Feast</h3>
+                        <p class="text-gray-600 mb-4">Tomato sauce, mozzarella, pepperoni, sausage, ham, and bacon.</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-orange-500 font-bold text-lg">$16.99</span>
+                            <button onclick="addToCart('Mechanized Meat Feast', 16.99)" class="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-full text-sm">Add to Order</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Order Page -->
+    <div id="order" class="page">
+        <div class="max-w-6xl mx-auto py-8 px-4">
+            <h1 class="text-3xl font-bold text-center mb-8 text-gray-800">Build Your Perfect Pizza</h1>
+            
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- Pizza Builder -->
+                <div class="md:col-span-2 bg-white p-6 rounded-lg shadow-md">
+                    <h2 class="text-xl font-bold mb-4 text-gray-800">Customize Your Pizza</h2>
+                    
+                    <!-- Size Selection -->
+                    <div class="mb-6">
+                        <h3 class="font-semibold mb-3 text-gray-700">Size</h3>
+                        <div class="grid grid-cols-3 gap-3">
+                            <button onclick="selectSize('small', 10.99)" class="size-btn border border-gray-300 py-2 px-4 rounded-lg hover:bg-orange-100 hover:border-orange-300">
+                                <span class="block font-medium">Small</span>
+                                <span class="text-sm text-gray-600">10"</span>
+                            </button>
+                            <button onclick="selectSize('medium', 12.99)" class="size-btn border border-orange-300 bg-orange-100 py-2 px-4 rounded-lg">
+                                <span class="block font-medium">Medium</span>
+                                <span class="text-sm text-gray-600">12"</span>
+                            </button>
+                            <button onclick="selectSize('large', 15.99)" class="size-btn border border-gray-300 py-2 px-4 rounded-lg hover:bg-orange-100 hover:border-orange-300">
+                                <span class="block font-medium">Large</span>
+                                <span class="text-sm text-gray-600">14"</span>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Crust Selection -->
+                    <div class="mb-6">
+                        <h3 class="font-semibold mb-3 text-gray-700">Crust</h3>
+                        <div class="grid grid-cols-2 md:grid-cols-3 gap-3">
+                            <button onclick="selectCrust('classic', 0)" class="crust-btn border border-orange-300 bg-orange-100 py-2 px-4 rounded-lg">
+                                Classic
+                            </button>
+                            <button onclick="selectCrust('thin', 0)" class="crust-btn border border-gray-300 py-2 px-4 rounded-lg hover:bg-orange-100 hover:border-orange-300">
+                                Thin
+                            </button>
+                            <button onclick="selectCrust('thick', 1.5)" class="crust-btn border border-gray-300 py-2 px-4 rounded-lg hover:bg-orange-100 hover:border-orange-300">
+                                Thick (+$1.50)
+                            </button>
+                            <button onclick="selectCrust('stuffed', 2.5)" class="crust-btn border border-gray-300 py-2 px-4 rounded-lg hover:bg-orange-100 hover:border-orange-300">
+                                Stuffed (+$2.50)
+                            </button>
+                            <button onclick="selectCrust('gluten-free', 3)" class="crust-btn border border-gray-300 py-2 px-4 rounded-lg hover:bg-orange-100 hover:border-orange-300">
+                                Gluten-Free (+$3.00)
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Sauce Selection -->
+                    <div class="mb-6">
+                        <h3 class="font-semibold mb-3 text-gray-700">Sauce</h3>
+                        <div class="grid grid-cols-2 md:grid-cols-3 gap-3">
+                            <button onclick="selectSauce('tomato', 0)" class="sauce-btn border border-orange-300 bg-orange-100 py-2 px-4 rounded-lg">
+                                Tomato
+                            </button>
+                            <button onclick="selectSauce('bbq', 0.5)" class="sauce-btn border border-gray-300 py-2 px-4 rounded-lg hover:bg-orange-100 hover:border-orange-300">
+                                BBQ (+$0.50)
+                            </button>
+                            <button onclick="selectSauce('alfredo', 0.5)" class="sauce-btn border border-gray-300 py-2 px-4 rounded-lg hover:bg-orange-100 hover:border-orange-300">
+                                Alfredo (+$0.50)
+                            </button>
+                            <button onclick="selectSauce('pesto', 1)" class="sauce-btn border border-gray-300 py-2 px-4 rounded-lg hover:bg-orange-100 hover:border-orange-300">
+                                Pesto (+$1.00)
+                            </button>
+                            <button onclick="selectSauce('none', 0)" class="sauce-btn border border-gray-300 py-2 px-4 rounded-lg hover:bg-orange-100 hover:border-orange-300">
+                                No Sauce
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Cheese Selection -->
+                    <div class="mb-6">
+                        <h3 class="font-semibold mb-3 text-gray-700">Cheese</h3>
+                        <div class="grid grid-cols-2 md:grid-cols-3 gap-3">
+                            <button onclick="selectCheese('mozzarella', 0)" class="cheese-btn border border-orange-300 bg-orange-100 py-2 px-4 rounded-lg">
+                                Mozzarella
+                            </button>
+                            <button onclick="selectCheese('extra-mozzarella', 1.5)" class="cheese-btn border border-gray-300 py-2 px-4 rounded-lg hover:bg-orange-100 hover:border-orange-300">
+                                Extra Mozzarella (+$1.50)
+                            </button>
+                            <button onclick="selectCheese('cheddar', 0.5)" class="cheese-btn border border-gray-300 py-2 px-4 rounded-lg hover:bg-orange-100 hover:border-orange-300">
+                                Cheddar (+$0.50)
+                            </button>
+                            <button onclick="selectCheese('parmesan', 0.5)" class="cheese-btn border border-gray-300 py-2 px-4 rounded-lg hover:bg-orange-100 hover:border-orange-300">
+                                Parmesan (+$0.50)
+                            </button>
+                            <button onclick="selectCheese('vegan', 1.5)" class="cheese-btn border border-gray-300 py-2 px-4 rounded-lg hover:bg-orange-100 hover:border-orange-300">
+                                Vegan (+$1.50)
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Toppings Selection -->
+                    <div class="mb-6">
+                        <h3 class="font-semibold mb-3 text-gray-700">Toppings ($1.00 each)</h3>
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+                            <button onclick="toggleTopping('pepperoni')" class="topping-item border border-gray-300 py-2 px-4 rounded-lg hover:bg-orange-100 hover:border-orange-300 flex items-center">
+                                <i class="fas fa-check-circle text-orange-500 mr-2 hidden topping-check"></i>
+                                <span>Pepperoni</span>
+                            </button>
+                            <button onclick="toggleTopping('mushrooms')" class="topping-item border border-gray-300 py-2 px-4 rounded-lg hover:bg-orange-100 hover:border-orange-300 flex items-center">
+                                <i class="fas fa-check-circle text-orange-500 mr-2 hidden topping-check"></i>
+                                <span>Mushrooms</span>
+                            </button>
+                            <button onclick="toggleTopping('onions')" class="topping-item border border-gray-300 py-2 px-4 rounded-lg hover:bg-orange-100 hover:border-orange-300 flex items-center">
+                                <i class="fas fa-check-circle text-orange-500 mr-2 hidden topping-check"></i>
+                                <span>Onions</span>
+                            </button>
+                            <button onclick="toggleTopping('sausage')" class="topping-item border border-gray-300 py-2 px-4 rounded-lg hover:bg-orange-100 hover:border-orange-300 flex items-center">
+                                <i class="fas fa-check-circle text-orange-500 mr-2 hidden topping-check"></i>
+                                <span>Sausage</span>
+                            </button>
+                            <button onclick="toggleTopping('bacon')" class="topping-item border border-gray-300 py-2 px-4 rounded-lg hover:bg-orange-100 hover:border-orange-300 flex items-center">
+                                <i class="fas fa-check-circle text-orange-500 mr-2 hidden topping-check"></i>
+                                <span>Bacon</span>
+                            </button>
+                            <button onclick="toggleTopping('olives')" class="topping-item border border-gray-300 py-2 px-4 rounded-lg hover:bg-orange-100 hover:border-orange-300 flex items-center">
+                                <i class="fas fa-check-circle text-orange-500 mr-2 hidden topping-check"></i>
+                                <span>Olives</span>
+                            </button>
+                            <button onclick="toggleTopping('bell-peppers')" class="topping-item border border-gray-300 py-2 px-4 rounded-lg hover:bg-orange-100 hover:border-orange-300 flex items-center">
+                                <i class="fas fa-check-circle text-orange-500 mr-2 hidden topping-check"></i>
+                                <span>Bell Peppers</span>
+                            </button>
+                            <button onclick="toggleTopping('pineapple')" class="topping-item border border-gray-300 py-2 px-4 rounded-lg hover:bg-orange-100 hover:border-orange-300 flex items-center">
+                                <i class="fas fa-check-circle text-orange-500 mr-2 hidden topping-check"></i>
+                                <span>Pineapple</span>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Special Instructions -->
+                    <div class="mb-6">
+                        <h3 class="font-semibold mb-3 text-gray-700">Special Instructions</h3>
+                        <textarea id="specialInstructions" class="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-orange-500 focus:border-orange-500" rows="3" placeholder="Any special requests or dietary restrictions?"></textarea>
+                    </div>
+                    
+                    <!-- Add to Order Button -->
+                    <button onclick="addCustomPizzaToCart()" class="w-full bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 px-4 rounded-lg transition duration-300">
+                        <i class="fas fa-cart-plus mr-2"></i> Add to Order
+                    </button>
+                </div>
+                
+                <!-- Order Summary -->
+                <div class="bg-white p-6 rounded-lg shadow-md sticky top-4">
+                    <h2 class="text-xl font-bold mb-4 text-gray-800">Your Order</h2>
+                    
+                    <div id="orderItems" class="mb-4">
+                        <p class="text-gray-500 italic">Your cart is empty</p>
+                    </div>
+                    
+                    <div class="border-t border-gray-200 pt-4 mb-4">
+                        <div class="flex justify-between mb-2">
+                            <span class="text-gray-600">Subtotal:</span>
+                            <span id="subtotal" class="font-medium">$0.00</span>
+                        </div>
+                        <div class="flex justify-between mb-2">
+                            <span class="text-gray-600">Tax (8%):</span>
+                            <span id="tax" class="font-medium">$0.00</span>
+                        </div>
+                        <div class="flex justify-between font-bold text-lg">
+                            <span>Total:</span>
+                            <span id="total" class="text-orange-500">$0.00</span>
+                        </div>
+                    </div>
+                    
+                    <button onclick="checkout()" class="w-full bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-4 rounded-lg transition duration-300 mb-3">
+                        <i class="fas fa-credit-card mr-2"></i> Proceed to Checkout
+                    </button>
+                    
+                    <button onclick="clearCart()" class="w-full bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-3 px-4 rounded-lg transition duration-300">
+                        <i class="fas fa-trash-alt mr-2"></i> Clear Order
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Login Page -->
+    <div id="login" class="page">
+        <div class="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+            <div class="max-w-md w-full space-y-8 bg-white p-8 rounded-lg shadow-lg">
+                <div>
+                    <i class="fas fa-pizza-slice text-orange-500 text-5xl mx-auto block text-center"></i>
+                    <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">
+                        Sign in to your account
+                    </h2>
+                    <p class="mt-2 text-center text-sm text-gray-600">
+                        Or <a href="#" onclick="showPage('signup')" class="font-medium text-orange-600 hover:text-orange-500">create a new account</a>
+                    </p>
+                </div>
+                <form class="mt-8 space-y-6" id="loginForm">
+                    <input type="hidden" name="remember" value="true">
+                    <div class="rounded-md shadow-sm space-y-4">
+                        <div>
+                            <label for="email" class="sr-only">Email address</label>
+                            <input id="loginEmail" name="email" type="email" autocomplete="email" required class="appearance-none rounded-none relative block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-orange-500 focus:border-orange-500 focus:z-10 sm:text-sm" placeholder="Email address">
+                        </div>
+                        <div>
+                            <label for="password" class="sr-only">Password</label>
+                            <input id="loginPassword" name="password" type="password" autocomplete="current-password" required class="appearance-none rounded-none relative block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-orange-500 focus:border-orange-500 focus:z-10 sm:text-sm" placeholder="Password">
+                        </div>
+                    </div>
+
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center">
+                            <input id="remember-me" name="remember-me" type="checkbox" class="h-4 w-4 text-orange-600 focus:ring-orange-500 border-gray-300 rounded">
+                            <label for="remember-me" class="ml-2 block text-sm text-gray-900">
+                                Remember me
+                            </label>
+                        </div>
+
+                        <div class="text-sm">
+                            <a href="#" class="font-medium text-orange-600 hover:text-orange-500">
+                                Forgot your password?
+                            </a>
+                        </div>
+                    </div>
+
+                    <div>
+                        <button type="submit" class="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-orange-600 hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500">
+                            <span class="absolute left-0 inset-y-0 flex items-center pl-3">
+                                <i class="fas fa-sign-in-alt"></i>
+                            </span>
+                            Sign in
+                        </button>
+                    </div>
+                </form>
+                <div class="text-center mt-4">
+                    <button onclick="showPage('home')" class="text-sm text-gray-600 hover:text-orange-500">
+                        <i class="fas fa-arrow-left mr-1"></i> Back to Home
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Signup Page -->
+    <div id="signup" class="page">
+        <div class="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+            <div class="max-w-md w-full space-y-8 bg-white p-8 rounded-lg shadow-lg">
+                <div>
+                    <i class="fas fa-pizza-slice text-orange-500 text-5xl mx-auto block text-center"></i>
+                    <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">
+                        Create a new account
+                    </h2>
+                    <p class="mt-2 text-center text-sm text-gray-600">
+                        Or <a href="#" onclick="showPage('login')" class="font-medium text-orange-600 hover:text-orange-500">sign in to your existing account</a>
+                    </p>
+                </div>
+                <form class="mt-8 space-y-6" id="signupForm">
+                    <input type="hidden" name="remember" value="true">
+                    <div class="rounded-md shadow-sm space-y-4">
+                        <div>
+                            <label for="fullname" class="sr-only">Full Name</label>
+                            <input id="signupName" name="fullname" type="text" autocomplete="name" required class="appearance-none rounded-none relative block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-orange-500 focus:border-orange-500 focus:z-10 sm:text-sm" placeholder="Full Name">
+                        </div>
+                        <div>
+                            <label for="email" class="sr-only">Email address</label>
+                            <input id="signupEmail" name="email" type="email" autocomplete="email" required class="appearance-none rounded-none relative block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-orange-500 focus:border-orange-500 focus:z-10 sm:text-sm" placeholder="Email address">
+                        </div>
+                        <div>
+                            <label for="password" class="sr-only">Password</label>
+                            <input id="signupPassword" name="password" type="password" autocomplete="new-password" required class="appearance-none rounded-none relative block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-orange-500 focus:border-orange-500 focus:z-10 sm:text-sm" placeholder="Password">
+                        </div>
+                        <div>
+                            <label for="confirm-password" class="sr-only">Confirm Password</label>
+                            <input id="signupConfirmPassword" name="confirm-password" type="password" autocomplete="new-password" required class="appearance-none rounded-none relative block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-orange-500 focus:border-orange-500 focus:z-10 sm:text-sm" placeholder="Confirm Password">
+                        </div>
+                    </div>
+
+                    <div class="flex items-center">
+                        <input id="terms" name="terms" type="checkbox" class="h-4 w-4 text-orange-600 focus:ring-orange-500 border-gray-300 rounded" required>
+                        <label for="terms" class="ml-2 block text-sm text-gray-900">
+                            I agree to the <a href="#" class="text-orange-600 hover:text-orange-500">Terms and Conditions</a>
+                        </label>
+                    </div>
+
+                    <div>
+                        <button type="submit" class="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-orange-600 hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500">
+                            <span class="absolute left-0 inset-y-0 flex items-center pl-3">
+                                <i class="fas fa-user-plus"></i>
+                            </span>
+                            Create Account
+                        </button>
+                    </div>
+                </form>
+                <div class="text-center mt-4">
+                    <button onclick="showPage('home')" class="text-sm text-gray-600 hover:text-orange-500">
+                        <i class="fas fa-arrow-left mr-1"></i> Back to Home
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- About Page -->
+    <div id="about" class="page">
+        <div class="max-w-6xl mx-auto py-16 px-4">
+            <h1 class="text-3xl font-bold text-center mb-12 text-gray-800">About Cedric's Automatic Pizzeria</h1>
+            
+            <div class="bg-white rounded-lg shadow-lg overflow-hidden mb-12">
+                <div class="md:flex">
+                    <div class="md:w-1/2">
+                        <img src="https://images.unsplash.com/photo-1518779578993-ec3579fee39f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" alt="Pizzeria Interior" class="w-full h-full object-cover">
+                    </div>
+                    <div class="md:w-1/2 p-8">
+                        <h2 class="text-2xl font-bold mb-4 text-gray-800">Our Story</h2>
+                        <p class="text-gray-600 mb-4">
+                            Founded in 2023 by robotics engineer Cedric, our pizzeria combines a passion for authentic Italian pizza with cutting-edge automation technology.
+                        </p>
+                        <p class="text-gray-600 mb-4">
+                            After years of perfecting both pizza recipes and robotic systems, Cedric created a revolutionary pizza-making process that guarantees consistency, quality, and speed without sacrificing the artisanal touch.
+                        </p>
+                        <p class="text-gray-600">
+                            Every pizza is crafted with precision by our robotic chefs, overseen by our human pizza artisans who ensure each pie meets our exacting standards.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="grid md:grid-cols-2 gap-8 mb-12">
+                <div class="bg-white p-8 rounded-lg shadow-lg">
+                    <h2 class="text-2xl font-bold mb-4 text-gray-800">Our Technology</h2>
+                    <p class="text-gray-600 mb-4">
+                        Our proprietary automation system handles everything from dough preparation to perfect ingredient distribution, ensuring each pizza is made with millimeter precision.
+                    </p>
+                    <ul class="text-gray-600 space-y-2">
+                        <li class="flex items-start">
+                            <i class="fas fa-robot text-orange-500 mt-1 mr-2"></i>
+                            <span>AI-powered dough stretching for the perfect crust</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-microchip text-orange-500 mt-1 mr-2"></i>
+                            <span>Computer vision sauce and cheese application</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-calculator text-orange-500 mt-1 mr-2"></i>
+                            <span>Precision topping placement algorithms</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-thermometer-half text-orange-500 mt-1 mr-2"></i>
+                            <span>Smart oven temperature control</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="bg-white p-8 rounded-lg shadow-lg">
+                    <h2 class="text-2xl font-bold mb-4 text-gray-800">Our Ingredients</h2>
+                    <p class="text-gray-600 mb-4">
+                        While our process is automated, our commitment to quality ingredients is entirely human.
+                    </p>
+                    <ul class="text-gray-600 space-y-2">
+                        <li class="flex items-start">
+                            <i class="fas fa-wheat-alt text-orange-500 mt-1 mr-2"></i>
+                            <span>Organic flour milled daily for our dough</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-cheese text-orange-500 mt-1 mr-2"></i>
+                            <span>Fresh mozzarella from local dairy farms</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-tomato text-orange-500 mt-1 mr-2"></i>
+                            <span>San Marzano tomatoes imported from Italy</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-leaf text-orange-500 mt-1 mr-2"></i>
+                            <span>Fresh herbs grown in our vertical farm</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="bg-white p-8 rounded-lg shadow-lg">
+                <h2 class="text-2xl font-bold mb-6 text-center text-gray-800">Visit Us</h2>
+                <div class="grid md:grid-cols-3 gap-8">
+                    <div class="text-center">
+                        <i class="fas fa-map-marker-alt text-4xl text-orange-500 mb-4"></i>
+                        <h3 class="text-xl font-bold mb-2">Location</h3>
+                        <p class="text-gray-600">123 Automation Ave<br>Techville, TV 90210</p>
+                    </div>
+                    <div class="text-center">
+                        <i class="fas fa-clock text-4xl text-orange-500 mb-4"></i>
+                        <h3 class="text-xl font-bold mb-2">Hours</h3>
+                        <p class="text-gray-600">
+                            Mon-Fri: 11am - 10pm<br>
+                            Sat-Sun: 12pm - 11pm
+                        </p>
+                    </div>
+                    <div class="text-center">
+                        <i class="fas fa-phone-alt text-4xl text-orange-500 mb-4"></i>
+                        <h3 class="text-xl font-bold mb-2">Contact</h3>
+                        <p class="text-gray-600">
+                            (555) 123-4567<br>
+                            info@cedricspizzeria.com
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-8">
+        <div class="max-w-6xl mx-auto px-4">
+            <div class="grid md:grid-cols-4 gap-8">
+                <div>
+                    <h3 class="text-xl font-bold mb-4">Cedric's Automatic Pizzeria</h3>
+                    <p class="text-gray-400">Combining tradition with innovation to create the perfect pizza experience.</p>
+                </div>
+                <div>
+                    <h4 class="font-bold mb-4">Quick Links</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" onclick="showPage('menu')" class="text-gray-400 hover:text-orange-400">Menu</a></li>
+                        <li><a href="#" onclick="showPage('order')" class="text-gray-400 hover:text-orange-400">Order Online</a></li>
+                        <li><a href="#" onclick="showPage('about')" class="text-gray-400 hover:text-orange-400">About Us</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-orange-400">Careers</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-bold mb-4">Contact</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li class="flex items-start">
+                            <i class="fas fa-map-marker-alt mt-1 mr-2 text-orange-400"></i>
+                            <span>123 Automation Ave, Techville</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-phone-alt mt-1 mr-2 text-orange-400"></i>
+                            <span>(555) 123-4567</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-envelope mt-1 mr-2 text-orange-400"></i>
+                            <span>info@cedricspizzeria.com</span>
+                        </li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-bold mb-4">Follow Us</h4>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-orange-400 text-xl"><i class="fab fa-facebook"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-orange-400 text-xl"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-orange-400 text-xl"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-orange-400 text-xl"><i class="fab fa-tiktok"></i></a>
+                    </div>
+                    <div class="mt-4">
+                        <h4 class="font-bold mb-2">Download Our App</h4>
+                        <div class="flex space-x-2">
+                            <a href="#" class="bg-black text-white px-3 py-1 rounded flex items-center text-sm">
+                                <i class="fab fa-apple mr-1"></i> App Store
+                            </a>
+                            <a href="#" class="bg-black text-white px-3 py-1 rounded flex items-center text-sm">
+                                <i class="fab fa-google-play mr-1"></i> Play Store
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-gray-700 mt-8 pt-6 text-center text-gray-400">
+                <p>&copy; 2023 Cedric's Automatic Pizzeria. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Current user state
+        let currentUser = null;
+        let cart = [];
+        
+        // Pizza builder selections
+        let pizzaSelections = {
+            size: { name: 'medium', price: 12.99 },
+            crust: { name: 'classic', price: 0 },
+            sauce: { name: 'tomato', price: 0 },
+            cheese: { name: 'mozzarella', price: 0 },
+            toppings: [],
+            specialInstructions: ''
+        };
+        
+        // Show page function
+        function showPage(pageId) {
+            // Hide all pages
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+            
+            // Show selected page
+            document.getElementById(pageId).classList.add('active');
+            
+            // Close mobile menu if open
+            document.getElementById('mobileMenu').classList.add('hidden');
+            
+            // Close user menu if open
+            document.getElementById('userMenu').classList.add('hidden');
+            
+            // Update cart display
+            updateCartDisplay();
+        }
+        
+        // Toggle user menu
+        document.getElementById('userMenuButton').addEventListener('click', function(e) {
+            e.stopPropagation();
+            document.getElementById('userMenu').classList.toggle('hidden');
+        });
+        
+        // Close user menu when clicking elsewhere
+        document.addEventListener('click', function() {
+            document.getElementById('userMenu').classList.add('hidden');
+        });
+        
+        // Toggle mobile menu
+        document.getElementById('mobileMenuButton').addEventListener('click', function() {
+            document.getElementById('mobileMenu').classList.toggle('hidden');
+        });
+        
+        // Login form submission
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+            
+            // Simple validation
+            if (email && password) {
+                currentUser = {
+                    email: email,
+                    name: email.split('@')[0] // Simple way to get a "name"
+                };
+                
+                alert(`Welcome back, ${currentUser.name}!`);
+                showPage('home');
+            } else {
+                alert('Please enter both email and password');
+            }
+        });
+        
+        // Signup form submission
+        document.getElementById('signupForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const name = document.getElementById('signupName').value;
+            const email = document.getElementById('signupEmail').value;
+            const password = document.getElementById('signupPassword').value;
+            const confirmPassword = document.getElementById('signupConfirmPassword').value;
+            
+            // Simple validation
+            if (!name || !email || !password || !confirmPassword) {
+                alert('Please fill in all fields');
+                return;
+            }
+            
+            if (password !== confirmPassword) {
+                alert('Passwords do not match');
+                return;
+            }
+            
+            currentUser = {
+                name: name,
+                email: email
+            };
+            
+            alert(`Welcome to Cedric's, ${name}! Your account has been created.`);
+            showPage('home');
+        });
+        
+        // Pizza builder functions
+        function selectSize(size, price) {
+            pizzaSelections.size = { name: size, price: price };
+            
+            // Update UI
+            document.querySelectorAll('.size-btn').forEach(btn => {
+                btn.classList.remove('border-orange-300', 'bg-orange-100');
+            });
+            event.target.classList.add('border-orange-300', 'bg-orange-100');
+        }
+        
+        function selectCrust(crust, price) {
+            pizzaSelections.crust = { name: crust, price: price };
+            
+            // Update UI
+            document.querySelectorAll('.crust-btn').forEach(btn => {
+                btn.classList.remove('border-orange-300', 'bg-orange-100');
+            });
+            event.target.classList.add('border-orange-300', 'bg-orange-100');
+        }
+        
+        function selectSauce(sauce, price) {
+            pizzaSelections.sauce = { name: sauce, price: price };
+            
+            // Update UI
+            document.querySelectorAll('.sauce-btn').forEach(btn => {
+                btn.classList.remove('border-orange-300', 'bg-orange-100');
+            });
+            event.target.classList.add('border-orange-300', 'bg-orange-100');
+        }
+        
+        function selectCheese(cheese, price) {
+            pizzaSelections.cheese = { name: cheese, price: price };
+            
+            // Update UI
+            document.querySelectorAll('.cheese-btn').forEach(btn => {
+                btn.classList.remove('border-orange-300', 'bg-orange-100');
+            });
+            event.target.classList.add('border-orange-300', 'bg-orange-100');
+        }
+        
+        function toggleTopping(topping) {
+            const index = pizzaSelections.toppings.indexOf(topping);
+            const toppingItem = event.target.closest('.topping-item');
+            const checkIcon = toppingItem.querySelector('.topping-check');
+            
+            if (index === -1) {
+                pizzaSelections.toppings.push(topping);
+                checkIcon.classList.remove('hidden');
+                toppingItem.classList.add('border-orange-300', 'bg-orange-100');
+            } else {
+                pizzaSelections.toppings.splice(index, 1);
+                checkIcon.classList.add('hidden');
+                toppingItem.classList.remove('border-orange-300', 'bg-orange-100');
+            }
+        }
+        
+        // Cart functions
+        function addToCart(name, price) {
+            cart.push({
+                name: name,
+                price: price,
+                quantity: 1
+            });
+            
+            updateCartDisplay();
+            alert(`${name} added to your order!`);
+        }
+        
+        function addCustomPizzaToCart() {
+            pizzaSelections.specialInstructions = document.getElementById('specialInstructions').value;
+            
+            // Calculate total price
+            const toppingsPrice = pizzaSelections.toppings.length * 1;
+            const totalPrice = pizzaSelections.size.price + pizzaSelections.crust.price + 
+                              pizzaSelections.sauce.price + pizzaSelections.cheese.price + 
+                              toppingsPrice;
+            
+            // Create description
+            let description = `${pizzaSelections.size.name} pizza with ${pizzaSelections.crust.name} crust, `;
+            description += `${pizzaSelections.sauce.name} sauce, ${pizzaSelections.cheese.name} cheese`;
+            
+            if (pizzaSelections.toppings.length > 0) {
+                description += `, and toppings: ${pizzaSelections.toppings.join(', ')}`;
+            }
+            
+            if (pizzaSelections.specialInstructions) {
+                description += ` (Special: ${pizzaSelections.specialInstructions})`;
+            }
+            
+            cart.push({
+                name: 'Custom Pizza',
+                description: description,
+                price: totalPrice,
+                quantity: 1
+            });
+            
+            updateCartDisplay();
+            alert('Your custom pizza has been added to the order!');
+        }
+        
+        function updateCartDisplay() {
+            const orderItemsEl = document.getElementById('orderItems');
+            let subtotal = 0;
+            
+            if (cart.length === 0) {
+                orderItemsEl.innerHTML = '<p class="text-gray-500 italic">Your cart is empty</p>';
+            } else {
+                orderItemsEl.innerHTML = '';
+                
+                cart.forEach((item, index) => {
+                    subtotal += item.price * item.quantity;
+                    
+                    const itemEl = document.createElement('div');
+                    itemEl.className = 'flex justify-between items-center py-2 border-b border-gray-200';
+                    itemEl.innerHTML = `
+                        <div class="flex-1">
+                            <h4 class="font-medium">${item.name}</h4>
+                            ${item.description ? `<p class="text-sm text-gray-600">${item.description}</p>` : ''}
+                        </div>
+                        <div class="flex items-center">
+                            <span class="font-medium mr-4">$${item.price.toFixed(2)}</span>
+                            <button onclick="removeFromCart(${index})" class="text-red-500 hover:text-red-700">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                    `;
+                    
+                    orderItemsEl.appendChild(itemEl);
+                });
+            }
+            
+            const tax = subtotal * 0.08;
+            const total = subtotal + tax;
+            
+            document.getElementById('subtotal').textContent = `$${subtotal.toFixed(2)}`;
+            document.getElementById('tax').textContent = `$${tax.toFixed(2)}`;
+            document.getElementById('total').textContent = `$${total.toFixed(2)}`;
+        }
+        
+        function removeFromCart(index) {
+            cart.splice(index, 1);
+            updateCartDisplay();
+        }
+        
+        function clearCart() {
+            if (confirm('Are you sure you want to clear your order?')) {
+                cart = [];
+                updateCartDisplay();
+            }
+        }
+        
+        function checkout() {
+            if (cart.length === 0) {
+                alert('Your cart is empty. Please add some items before checking out.');
+                return;
+            }
+            
+            if (!currentUser) {
+                alert('Please login or create an account to complete your order.');
+                showPage('login');
+                return;
+            }
+            
+            // In a real app, this would process payment and send the order
+            alert(`Thank you for your order, ${currentUser.name}! Your pizza will be ready soon.`);
+            cart = [];
+            updateCartDisplay();
+            showPage('home');
+        }
+        
+        // Initialize default selections
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set default pizza size selection
+            document.querySelectorAll('.size-btn')[1].click();
+            
+            // Set default crust selection
+            document.querySelectorAll('.crust-btn')[0].click();
+            
+            // Set default sauce selection
+            document.querySelectorAll('.sauce-btn')[0].click();
+            
+            // Set default cheese selection
+            document.querySelectorAll('.cheese-btn')[0].click();
+        });
+    </script>
+</body>
+</html>
