@@ -9,7 +9,7 @@ Cedric's Automatic Pizzeria is a modern pizza ordering website designed to deliv
 ✔ Responsive Design: Works flawlessly on mobile, tablet, and desktop.
 
 🛠 Technologies Used
-Frontend: HTML5, CSS3.
+Frontend: HTML5, CSS3 and JavaScript.
 
 Perfect for an MVP (Minimum Viable Product) or initial project with future expansion.
 
